@@ -1,0 +1,94 @@
+<!-- result.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Quality Evaluation Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 20px;
+			text-align: left
+        }
+        h1 {
+            color: #333;
+			text-align: center;
+        }
+        .result-container {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .data-preview {
+            margin-bottom: 20px;
+        }
+        .data-preview table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .data-preview th, .data-preview td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .metrics {
+            margin-top: 20px;
+        }
+        .metrics li {
+            list-style-type: none;
+            margin-bottom: 10px;
+        }
+        .metrics li span {
+            font-weight: bold;
+        }
+        .graph-container {
+            margin-top: 20px;
+        }
+        .back-button {
+            margin-top: 20px;
+        }
+        .back-button a {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .back-button a:hover {
+            background-color: #45a049;
+        }
+		form { display: inline-block; }
+    </style>
+</head>
+<body>
+    <h1>Data Quality Evaluation Results</h1>
+    <div class="result-container">
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% else %}
+            <h2>CSV File: {{ report.file_path }}</h2>
+            <div class="data-preview">
+                <h3>Data Preview:</h3>
+                {{ df_info_html | safe }}
+            </div>
+            <div class="metrics">
+                <h3>Metrics:</h3>
+                <ul>
+                    <li><span>Completeness:</span> {{ report.completeness }}%</li>
+                    <li><span>Accuracy:</span> {{ report.accuracy }}%</li>
+                    <li><span>Consistency:</span> {{ report.consistency }}%</li>
+                </ul>
+            </div>
+            <div class="graph-container">
+                <h3>Metrics Visualization:</h3>
+                <img src="{{ url_for('static', filename='graph.png') }}" alt="Metrics Graph">
+            </div>
+            <div class="back-button" style="float: right; color: red;">
+                <a href="{{ url_for('index') }}">Back</a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

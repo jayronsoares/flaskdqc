@@ -1,0 +1,66 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Quality Evaluation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .upload-form {
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .upload-form input[type="file"] {
+            padding: 10px;
+        }
+
+        .upload-form input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .upload-form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Data Quality Evaluation</h1>
+	<h3>Only CSV Files</h>
+    {% if error %}
+        <p class="error-message">{{ error }}</p>
+    {% endif %}
+    <form method="POST" enctype="multipart/form-data" class="upload-form">
+        <input type="file" name="csv_file">
+        <input type="submit" value="Evaluate">
+    </form>
+    {% if csv_loaded %}
+        <form method="POST" action="{{ url_for('evaluate') }}" class="upload-form">
+            <input type="hidden" name="csv_filename" value="{{ csv_filename }}">
+            <input type="submit" value="Evaluate">
+        </form>
+    {% endif %}
+</body>
+</html>
